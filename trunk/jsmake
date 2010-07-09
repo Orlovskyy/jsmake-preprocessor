@@ -100,7 +100,9 @@ if($compress ne 'none'){
 	my $filename = "$outname-$compress.js";
 	$outputfullpath=File::Spec->catfile($out,$filename);
 	open FILE,'>',$outputfullpath || die $!;
+	no strict 'refs';
 	print FILE &$compress($output);
+	use strict;
 	close FILE;
 	say "the $compress dump is ready at $outputfullpath".' '. -s $outputfullpath;
 }

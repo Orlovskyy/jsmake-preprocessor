@@ -20,9 +20,9 @@ my $outname    = '';
 my $compress   = 'none';
 my $input     = '';#current directory
 my %minifiers = (
-	'JavaScript::Packer'=>'packer',
-	'JavaScript::Minifier'=>'mini',
-	'http://closure-compiler.appspot.com/compile'=>'closure'
+	'JavaScript::Packer'  => 'packer',
+	'JavaScript::Minifier'=> 'mini',
+	'Javascript::Closure' => 'closure'
 );
 
 #get command line options

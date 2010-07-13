@@ -25,7 +25,7 @@ our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(minify);
 
 
-our $VERSION = '1.00';
+our $VERSION = 1.01;
 
 sub minify {
   my %args = @_;
@@ -48,7 +48,7 @@ sub minify {
   # Create a request
   my $req = HTTP::Request->new(POST => CLOSURE_COMPILER_SERVICE);
   $req->content_type('application/x-www-form-urlencoded');
-  $req->content("$js&output_info=compiled_code&output_format=text&compilation_level=WHITESPACE_ONLY");
+  $req->content("$js&output_info=$output_info&output_format=$output_format&compilation_level=$compilation_level");
 
   my $res = $ua->request($req);
   if ($res->is_success) {

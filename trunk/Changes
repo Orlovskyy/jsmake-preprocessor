@@ -1,0 +1,16 @@
+Revision history for jsmake.
+
+1.1   2010/08/10
+	  - added support for TRUE_ANON vars. 
+	  Allow to delete all "named" anonymous functions used for debugging purpose.
+	  anonymous functions name must start by $_ in order to get parsed.
+
+1.0   2010/08/10
+	  - erased the logic to connect to closure compiler. 
+	  jsmake now relies solely on perl modules available via CPAN for compression.	
+	  If you want to use the compression option, you have to install one of the following package:
+	  JavaScript::Mini,JavaScript::Packer or Javascript::Closure.
+
+0.01  2010/07/09
+	- First version, released on an unsuspecting world.
+

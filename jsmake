@@ -7,7 +7,7 @@ use Getopt::Long;
 use Cwd qw(realpath);
 sub say { print shift(),"\n"; }
 
-
+our %VERSION = 1.0;
 ######COMMAND LINE##########
 
 #define default variables
@@ -258,6 +258,8 @@ sub parse {
 
 	#conditional statements
 	$js=~s{(/\*[#@]([a-z]+?) ([A-Z_-]+) \*/(.*?)/\*[#@]end \*/)}{ token($4,$2,$3,$1); }gmsoe;
+
+	$js=~s{function\s+\$_(.+?)\s*\(}{function(}gmso if($varLookup->{TRUE_ANON});
 
 	#defined constants
 	my %inlineconstants = $js=~m{/\*[#@]define ([A-Z_-]+) (.*?) \*/};

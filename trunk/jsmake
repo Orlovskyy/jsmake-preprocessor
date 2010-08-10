@@ -116,7 +116,6 @@ exit;
 sub check_available_compression {
 	my @available =();
 	foreach my $package (keys %minifiers){
-
 		eval("use $package;");
 		my $e = $@;
 		push @available,$minifiers{$package} if(!$e);
@@ -130,25 +129,8 @@ sub mini {
 sub packer {
 	return JavaScript::Packer::minify(\shift,{compress=>'best'});
 }
-
 sub closure {
-  my $js = shift();
-     $js =~ s/(\W)/"%" . unpack("H2", $1)/ge;#urlencode
-  require LWP::UserAgent;
-
-  my $ua = LWP::UserAgent->new;
-     $ua->agent("js-builder/0.1");
-
-  # Create a request
-  my $req = HTTP::Request->new(POST => 'http://closure-compiler.appspot.com/compile');
-  $req->content_type('application/x-www-form-urlencoded');
-  $req->content("js_code=$js&output_info=compiled_code");
-
-  # Pass request to the user agent and get a response back
-  my $res = $ua->request($req);
-  if ($res->is_success) {
-      return $res->content;
-  }
+	return Javascript::Closure::minify(input=>shift);
 }
 
 ####DEPENDENCY TREE BUILDER####

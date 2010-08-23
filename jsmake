@@ -55,7 +55,7 @@ if(@compressions==0) {
 my $reg = join ('|',values %minifiers);
 if($compress ne 'none' && !(grep /^$reg$/,$compress)){
     $compress = 'none';
-    say 'specified compression is not supported...';
+    say 'Specified compression is not supported...';
     if(@compressions>0){
         say 'Choose between: '.join(',',@compressions);
     }
@@ -79,27 +79,27 @@ say hr;
 say hr;
 
 if(@packages>0){
-    say 'converting packages name to file path ...';
+    say 'Converting packages name to file path ...';
     map { 
         $_=package2path($_); 
     } @packages;
-    say "got: @packages";
+    say "Got: @packages";
 }
 
-say 'building dependency tree...';
+say 'Building dependency tree...';
 my ($hash,$output)= build_dependency_tree(\&load_dependency);
 
 $output = parse($output);
 
-say 'outputing the data...';
+say 'Outputing the data...';
 my $outputfullpath=File::Spec->catfile($out,$outname);
 open (FILE,'>',$outputfullpath) || die "Error:$out";
 print FILE $output;
 close FILE;
-say 'the src dump is ready at '.$outputfullpath.' '. -s $outputfullpath;
+say 'The raw dump is ready at '.$outputfullpath.' '. -s $outputfullpath;
 
 if($compress ne 'none'){
-    say "starting $compress compression";
+    say "Starting $compress compression...";
     $outname=~s/\.js//;
     my $filename = "$outname-$compress.js";
     $outputfullpath=File::Spec->catfile($out,$filename);
@@ -108,10 +108,10 @@ if($compress ne 'none'){
     print FILE &$compress($output);
     use strict;
     close FILE;
-    say "the $compress dump is ready at $outputfullpath".' '. -s $outputfullpath;
+    say "The $compress compressed dump is ready at $outputfullpath".' '. -s $outputfullpath;
 }
 
-say "done.";
+say "Done.";
 
 exit;
 

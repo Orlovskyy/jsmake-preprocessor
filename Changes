@@ -1,5 +1,8 @@
 Revision history for jsmake.
 
+1.4   2010/09/21
+	  - fix a huge parsing error that made jsmake not stripping the DIRECTIVES...my bad.
+
 1.3   2010/08/22
 	  - added support for windows. 
 	  - added the shebang line for linux/mac purpose

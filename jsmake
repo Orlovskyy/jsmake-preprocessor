@@ -9,7 +9,7 @@ use Cwd qw(realpath);
 sub say { print shift(),"\n"; }
 sub hr  { '-'x50; }
 
-our $VERSION = 1.3;
+our $VERSION = 1.4;
 ######COMMAND LINE##########
 
 #define default variables

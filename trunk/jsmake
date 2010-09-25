@@ -3,13 +3,13 @@ use 5.8.8;
 use warnings;
 use strict;
 use File::Basename;
-use File::Spec;
+use File::Spec::Unix;
 use Getopt::Long;
 use Cwd qw(realpath);
 sub say { print shift(),"\n"; }
 sub hr  { '-'x50; }
 
-our $VERSION = 1.4;
+our $VERSION = 1.5;
 ######COMMAND LINE##########
 
 #define default variables
@@ -92,7 +92,7 @@ my ($hash,$output)= build_dependency_tree(\&load_dependency);
 $output = parse($output);
 
 say 'Outputing the data...';
-my $outputfullpath=File::Spec->catfile($out,$outname);
+my $outputfullpath=File::Spec::Unix->catfile($out,$outname);
 open (FILE,'>',$outputfullpath) || die "Error:$out";
 print FILE $output;
 close FILE;
@@ -102,7 +102,7 @@ if($compress ne 'none'){
     say "Starting $compress compression...";
     $outname=~s/\.js//;
     my $filename = "$outname-$compress.js";
-    $outputfullpath=File::Spec->catfile($out,$filename);
+    $outputfullpath=File::Spec::Unix->catfile($out,$filename);
     open FILE,'>',$outputfullpath || die $!;
     no strict 'refs';
     print FILE &$compress($output);
@@ -148,6 +148,7 @@ sub build_dependency_tree {
 
         my $file = shift;
         $file=~s{$lib}{};
+
 
         my $ret = get_package_dependencies($lib,$file);
         $tree->{path2package($file)}= $ret if($ret);
@@ -198,11 +199,13 @@ sub load_dependency {
 sub get_package_dependencies {
         my @files=();
         my ($lib,$file,$force) = @_;
+
         $file=~s{$lib}{};
+
         return undef if($file=~m/$out$/ || $file=~m/-src/);
         return undef if(@packages>0 && !(grep /$file$/,@packages) && !$force);
 
-        open (FILE,'<',File::Spec->catfile($lib,$file)) || die File::Spec->catfile($lib,$file);
+        open (FILE,'<',File::Spec::Unix->catfile($lib,$file)) || die File::Spec::Unix->catfile($lib,$file);
         my @lines = <FILE>;
         close FILE;
 
@@ -220,7 +223,7 @@ sub get_package_dependencies {
 
 sub load_package {
     my $package = package2path(shift);
-    open(FILE,'<',File::Spec->catfile($input,$package)) || die "$!: $package\n";
+    open(FILE,'<',File::Spec::Unix->catfile($input,$package)) || die "$!: $package\n";
     my $lines =join '', <FILE>;
     close FILE;
     return  $lines."\n";
@@ -235,12 +238,12 @@ sub path2package {
 }
 
 sub package2path {
-    return File::Spec->catfile('',(split /\./,shift())).'.js';
+    return File::Spec::Unix->catfile('',(split /\./,shift())).'.js';
 }
 
 sub traverse {
     my ($dir,$callback,$complete) = @_;
-    my @docs =glob($dir.'/*');
+    my @docs =glob(File::Spec::Unix->catfile($dir,'*'));
 
     foreach my $doc (@docs){
         if(-f $doc) {

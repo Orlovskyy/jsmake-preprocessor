@@ -1,5 +1,9 @@
 Revision history for jsmake.
 
+1.5   2010/09/21
+	  - fix -package for windows.
+	  - TODO: really need to create a test suite and clean this mess...
+
 1.4   2010/09/21
 	  - fix a huge parsing error that made jsmake not stripping the DIRECTIVES...my bad.
 

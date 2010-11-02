@@ -39,10 +39,7 @@ GetOptions ('packages:s{,}' => \@packages,
 my $packages    = (@packages) ? join ' ',@packages : 'all';
 
 #get preprocessor variables
-my $varLookup ={};
-foreach my $var (@vars) {
-    $varLookup->{$var}=1;
-}
+my $varLookup = { map { $_ => 1 } @vars };
 
 #check for the compression type
 my @compressions = check_available_compression();

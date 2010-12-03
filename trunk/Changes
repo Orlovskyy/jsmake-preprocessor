@@ -1,5 +1,9 @@
 Revision history for jsmake.
 
+1.6   2010/12/03
+	  - jsmake supports config.jsm configuration files.see doc for further explanation
+	  - TODO: really need to create a test suite and clean this mess...
+
 1.5   2010/09/21
 	  - fix -package for windows.
 	  - TODO: really need to create a test suite and clean this mess...

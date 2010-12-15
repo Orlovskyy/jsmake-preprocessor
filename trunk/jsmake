@@ -9,7 +9,7 @@ use Cwd qw(realpath);
 sub say { print shift(),"\n"; }
 sub hr  { '-'x50; }
 
-our $VERSION = 1.6;
+our $VERSION = 1.7;
 ######COMMAND LINE##########
 
 #define default variables
@@ -193,10 +193,14 @@ sub load_dependency {
             next if($loaded->{$dep} || $dep eq $package);
 
             if($tree->{$dep} && @{$tree->{$dep}}>0){
+				 die "cyclic interdependence found: $dep requires $package that requires $dep that requires..." if(grep(/^$package$/,@{$tree->{$dep}}));
+
                  ($loaded,$output) = load_dependency({"$dep"=>$tree->{$dep}},$loaded,$output);
             }
             else {
                 my $ret = get_package_dependencies($lib,$lib.package2path($dep),1);
+				die "cyclic interdependence found: $dep requires $package that requires $dep that requires..." if(grep(/^$package$/,@$ret));
+
                 if($ret){
                      ($loaded,$output) = load_dependency({"$dep"=>$ret},$loaded,$output);
                 }else {

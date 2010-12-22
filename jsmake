@@ -182,8 +182,6 @@ sub build_dependency_tree {
         $tree->{path2package($file)}= $ret if($ret);
 
     },sub {
-		use Data::Dumper;
-
         &$callback($tree);
     });
 }

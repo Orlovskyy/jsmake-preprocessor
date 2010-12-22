@@ -85,7 +85,6 @@ say 'Output Folder   :'.$out;
 say 'Output File Name:'.$outname;
 say 'Packages        :'.$packages;
 say 'Compression type:'.$compress;
-my @variables        = keys %$varLookup;
 say 'Variables       :'.join(',',(keys %$varLookup));
 say hr;
 say hr;

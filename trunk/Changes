@@ -1,5 +1,13 @@
 Revision history for jsmake.
 
+1.7   2010/12/21
+	  - bug fix
+	    - multiple parameters set via the config.jsm were not parsed properly
+	    - cyclic dependencies are now found and result in the program to stop
+	  - enhancement
+		- display the vars contents in the output.
+	  - TODO: really need to create a test suite and clean this mess...
+
 1.6   2010/12/03
 	  - jsmake supports config.jsm configuration files.see doc for further explanation
 	  - TODO: really need to create a test suite and clean this mess...

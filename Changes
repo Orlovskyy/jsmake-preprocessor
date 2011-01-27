@@ -1,5 +1,15 @@
 Revision history for jsmake.
 
+1.8   2011/01/27
+	  - bug fix
+	    - multiple parameters set via the config.jsm were not parsed properly
+	    - windows fix
+	  - enhancement
+		- display the define contents in the output.
+		- jsmake resolves path relative to config.jsm folder.
+		- config.jsm key/value can be separated by spaces
+	  - TODO: really need to create a test suite and clean this mess...
+
 1.7   2010/12/21
 	  - bug fix
 	    - multiple parameters set via the config.jsm were not parsed properly

@@ -328,7 +328,29 @@ sub parse {
     my $js = shift;
 
     #conditional statements
-    $js=~s{(/\*[#@]([a-z]+?) ([A-Z_-]+) \*/(.*?)/\*[#@]end \*/)}{ token($4,$2,$3,$1); }gmsoe;
+    $js=~s{
+		   (
+			(?:/\*[#@]|//[#@])       #start a directive. can be /*@,/*#,//@,//#
+
+		    ([a-z]+?)                #catch the directive name,ifdef,ifndef,etc
+
+             \s+
+
+            ([A-Z_-]+)    			#catch the directive value,name of the var,only MAJUSCULE_V-ARS allowed
+
+             \s*
+
+             (?:\*/\n*|\n)   		#end of directive declaration
+
+             (.*?)        			#catch what's in between the directive,raw javascript
+
+             (?:/\*[#@]|//[#@])end	#end of the entire block...
+
+             \s*					#continued...
+
+	         (?:\*/\n*|\n)		   #done
+           )
+	}{ token($4,$2,$3,$1); }gmsoex;
 
     $js=~s{function\s+\$_(.+?)\s*\(}{function(}gmo if($varLookup->{TRUE_ANON});
 
@@ -370,6 +392,10 @@ sub token {
     return $ret;
 }
 
+sub if_handler {
+    return ifdef_handler(@_);
+}
+
 sub ifdef_handler {
     my ($strippedcomment,$keyword,$var,$fullcomment)=@_;
     if($varLookup->{$var}) {
@@ -389,10 +415,6 @@ sub ifndef_handler {
 
 sub human_readable_fsize {
    my $size = shift;
-
-   return sprintf("%.2ftb", $size / 1099511627776) if  $size > 1099511627776;
-
-   return sprintf("%.2fgb", $size / 1073741824) if $size > 1073741824;
 
    return sprintf("%.2fmb", $size / 1048576) if $size > 1048576;
 
